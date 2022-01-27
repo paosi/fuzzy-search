@@ -4,9 +4,7 @@ import json
 
 def phrasel_search(P, Queries):
 
-    ans = []  # Don't change this
-
-    # Write your solution here
+    ans = []  
 
     # Set constraints to 1 < len(Queries) < 1000. Reduce queries if over limit.
     num_Queries = len(Queries)
@@ -31,13 +29,11 @@ def phrasel_search(P, Queries):
         if S_len > S_limit:
             sentence = sentence[0: S_limit]
             S_len = len(sentence)
-        #print(sentence, S_len)
 
-        words = sentence.split()  # Turn the query string into a list
+        words = sentence.split()  
         matches = []
 
 
-        # Iterate through the list of words from the query
         for j in range(len(words)):
 
             # Set constraints to 1 < len(P) < 1,000,000. Shorten list of phrases if over limit.
@@ -52,20 +48,18 @@ def phrasel_search(P, Queries):
 
             word = words[j]
         
-            # Check each query word against the list of phrases
+
             for i in range(P_len):
 
                 phrase = P[i].split()
-                #print(phrase)
 
                 if word == phrase[0]:
 
-                    #print("MATCH")
                     len_phrase = len(phrase)  # Return length of phrase with match at index [0]
                     source = j  # Return the index of the matching query word
                     fuzzy_match = []
 
-                    # Create list of possible fuzzy match from query
+                    # Create list of possible fuzzy matches from query
                     for i in range(len_phrase + 1):
                         try:
                             fuzzy_match.append(words[source])
@@ -87,34 +81,28 @@ def phrasel_search(P, Queries):
                                 fuzzy_match_copy.remove(item)
 
                                 if phrase == fuzzy_match_copy:
-                                    #print(fuzzy_match_copy, "EXACT MATCH")
                                     exact_string = " ".join(fuzzy_match_copy)
-                                    #print(exact_string, "<----------")
                                     matches.append(exact_string)
                                 else:
                                     break
                             else:
-                                #print(item, "FOUND A FUZZY")
                                 fuzzy_match_copy.remove(item)
 
                                 if phrase == fuzzy_match_copy:                            
-                                    #print(fuzzy_match, "FUZZY MATCH")
                                     fuzzy_string = " ".join(fuzzy_match)
-                                    #print(fuzzy_string, "<--------")
                                     matches.append(fuzzy_string)
                                 else:
                                     break
                         
-
                 else:
-                    #print("Not a match. Next word.")
+                    # No matches
                     continue
 
         #print(matches)
         ans.append(matches)
 
-    return ans  # Don't change this
-
+    return ans  
+    
 
 if __name__ == "__main__":
     with open('sample.json', 'r') as f:
