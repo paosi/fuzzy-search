@@ -24,63 +24,59 @@ def phrasel_search(P, Queries):
         sentence = Queries[i]
 
         S_len = len(sentence)
-        S_limit = 999999  # Limit to 99,999 character sentence
+        S_limit = 99999  # Limit to 99,999 character sentence
         if S_len <= 1:
             print("The query string is too short.")
             break
         if S_len > S_limit:
             sentence = sentence[0: S_limit]
             S_len = len(sentence)
-        print(sentence, S_len)
+        #print(sentence, S_len)
 
-        words = sentence.split()
-        print(words)
-        print(len(words))
+        words = sentence.split()  # Turn the query string into a list
         matches = []
 
 
-        for i in range(len(words)):
-
-            print(words[i], "-----------------------------------------------")
-            word = words[i]
+        # Iterate through the list of words from the query
+        for j in range(len(words)):
 
             # Set constraints to 1 < len(P) < 1,000,000. Shorten list of phrases if over limit.
             P_len = len(P)
             P_limit = 999999  # Limit to 999,999 phrases
-            print(P_len)
+
             if P_len <= 1:
                 print("There are not enough key phrases. Please enter at least 2.")
                 break
             if P_len > P_limit:
                 P_len = P_limit
 
-
+            word = words[j]
+        
+            # Check each query word against the list of phrases
             for i in range(P_len):
 
                 phrase = P[i].split()
-                print(phrase)
+                #print(phrase)
 
                 if word == phrase[0]:
-                    print("MATCH")
-                    len_phrase = len(phrase)  # Return lenth of phrase with match at index [0]
-                    print(len_phrase)
-                    source = words.index(word)  # Return index of word that matched phrase [0]
-                    print(source)
+
+                    #print("MATCH")
+                    len_phrase = len(phrase)  # Return length of phrase with match at index [0]
+                    source = j  # Return the index of the matching query word
                     fuzzy_match = []
 
-
+                    # Create list of possible fuzzy match from query
                     for i in range(len_phrase + 1):
                         try:
                             fuzzy_match.append(words[source])
-                            print(fuzzy_match)
                             source += 1
                         except IndexError:
                             break
                     
-
+                    # print(fuzzy_match)
                     fuzzy_match_copy = fuzzy_match.copy()
 
-
+                    # Determine if there is an exact or fuzzy match
                     for i in range(len(fuzzy_match)):
                         item = fuzzy_match[i]
                         
@@ -89,29 +85,32 @@ def phrasel_search(P, Queries):
                         else:
                             if fuzzy_match.index(item) == len(phrase):
                                 fuzzy_match_copy.remove(item)
+
                                 if phrase == fuzzy_match_copy:
-                                    print(fuzzy_match_copy, "EXACT MATCH")
+                                    #print(fuzzy_match_copy, "EXACT MATCH")
                                     exact_string = " ".join(fuzzy_match_copy)
-                                    print(exact_string, "<----------")
+                                    #print(exact_string, "<----------")
                                     matches.append(exact_string)
                                 else:
                                     break
                             else:
-                                print(item, "FOUND A FUZZY")
+                                #print(item, "FOUND A FUZZY")
                                 fuzzy_match_copy.remove(item)
+
                                 if phrase == fuzzy_match_copy:                            
-                                    print(fuzzy_match, "FUZZY MATCH")
+                                    #print(fuzzy_match, "FUZZY MATCH")
                                     fuzzy_string = " ".join(fuzzy_match)
-                                    print(fuzzy_string, "<--------")
+                                    #print(fuzzy_string, "<--------")
                                     matches.append(fuzzy_string)
                                 else:
                                     break
                         
 
                 else:
-                    print("Not a match. Next word.")
+                    #print("Not a match. Next word.")
+                    continue
 
-        print(matches, "***********************")
+        #print(matches)
         ans.append(matches)
 
     return ans  # Don't change this
@@ -125,11 +124,6 @@ if __name__ == "__main__":
         print('============= ALL TEST PASSED SUCCESSFULLY ===============')
 
 
-        # Check results
-        
-        results_counter = 0
-        for ans in returned_ans:
-            for a in ans:
-                results_counter += 1
-
-        print(returned_ans, results_counter, "RESULTS")
+        # Check results 
+        # solution = sample_data['solution']
+        # print(solution == returned_ans)
