@@ -14,7 +14,7 @@ def merge(DB1, DB2):
                 key_dict = {}
                 for key2, value2 in j.items():
                     if key1 == key2:  # Find dict items with matching key
-                        value_dict = {**value2, **value1}  # Merge values with DB1 values taking precendence
+                        value_dict = {**value2, **value1}  # Merge values with DB1 values taking precedence
                         key_dict[key1] = value_dict
                         DB3.append(key_dict)  # Add merged dict items to new list
 
